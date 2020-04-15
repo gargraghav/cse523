@@ -18,6 +18,18 @@ class DownloadProgress(tqdm):
         self.total = total_size
         self.update((block_num - self.last_block) * block_size)
         self.last_block = block_num
+        
+if not isfile('cifar-10-python.tar.gz'):
+    with DownloadProgress(unit='B', unit_scale=True, miniters=1, desc='CIFAR-10 Dataset') as pbar:
+        urlretrieve(
+            'https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz',
+            'cifar-10-python.tar.gz',
+            pbar.hook)
+
+if not isdir(cifar10_dataset_folder_path):
+    with tarfile.open('cifar-10-python.tar.gz') as tar:
+        tar.extractall()
+        tar.close()
 
 """
     check if the data (zip) file is already downloaded
