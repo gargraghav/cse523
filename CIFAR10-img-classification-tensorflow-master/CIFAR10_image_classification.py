@@ -3,7 +3,7 @@ import pickle
 import random
 import time
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 from urllib.request import urlretrieve
 from os.path import isfile, isdir
 from tqdm import tqdm
@@ -18,7 +18,7 @@ class DownloadProgress(tqdm):
         self.total = total_size
         self.update((block_num - self.last_block) * block_size)
         self.last_block = block_num
-        
+
 if not isfile('cifar-10-python.tar.gz'):
     with DownloadProgress(unit='B', unit_scale=True, miniters=1, desc='CIFAR-10 Dataset') as pbar:
         urlretrieve(
@@ -284,9 +284,8 @@ def main():
 
     # Training Phase
     save_model_path = './image_classification'
-
     
-	s = time.time()
+    s = time.time()
     print('Training...')
     with tf.Session() as sess:
         # Initializing the variables
